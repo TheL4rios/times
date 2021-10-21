@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 import { Card } from './components/card';
 import { CardForm } from './components/cardForm';
 import { Navbar } from './components/navbar';
@@ -12,7 +13,22 @@ function App() {
     setNewTime(true);
   }
 
-  const handleClean = () => {
+  const handleClean = async () => {
+    const res = await Swal.fire({
+      title: 'Confirmar',
+      text: "¿Está seguro de limpiar la lista?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No'
+    });
+
+    if (!res.isConfirmed) {
+      return;
+    }
+    
     localStorage.removeItem('times');
     setTimes([]);
     setTotalTime(0);
